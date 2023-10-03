@@ -1,0 +1,87 @@
+$content-bg: #000000; // Cor de fundo do conteúdo
+$transition-duration: 0.5s; // Duração da transição
+
+// Cores de fundo para cada tipo de Pokémon
+$colors: (
+  electric: #FFDD77,
+  fire: #FF7733,
+  flying: #66A3D2,
+  water: #3388CC,
+  grass: #66CC66,
+  bug: #99B22A,
+  poison: #AA44AA,
+  normal: #999999,
+  rock: #AA8833,
+  ground: #CCAA66,
+  psychic: #FF88CC,
+  fighting: #AA3322,
+  ice: #88CCCC,
+  ghost: #664466,
+  dragon: #6633AA,
+  dark: #553344,
+  steel: #AAAAAA,
+  fairy: #CC99AA
+);
+
+// Loop para gerar as classes CSS para cada tipo de Pokémon
+@each $type, $color in $colors {
+  .shadow-#{$type} {
+    background-color:rgba($color, 0.1)!important ;
+    box-shadow: 0px 0px 10px  $color;
+    height: 20rem !important;
+   
+    transition: $transition-duration; // Adiciona a transição aqui
+    cursor: pointer;
+    img {
+      width: 200px !important;
+      height: 200px !important;
+      transition: $transition-duration; // Adiciona a transição aqui
+    }
+
+    img {
+      width: 150px !important;
+      height: 150px !important;
+      transition: $transition-duration; // Adiciona a transição aqui
+    }
+  }
+  
+  .shadow-#{$type}-modal {
+    background-color:rgba($color, 0.9)!important ;
+  }
+  
+  .shadow-#{$type}:hover {
+    margin-top: -2rem;
+    margin-left: -1rem;
+    background-color: rgba($color, 0.8) !important;
+    border-radius: 50%;
+    img {
+      width: 275px !important;
+      height: 275px !important;
+      transition: $transition-duration; // Adiciona a transição aqui
+    }
+    
+    .name{
+      font-size: 3rem !important;
+      color: #000;
+      font-weight: bold;
+      transition:  $transition-duration;;
+    }
+  }
+ 
+}
+
+.modal-content{
+  background-color: transparent !important;
+}
+// Conteúdo e classe para fundo escuro
+.content {
+  background-color: $content-bg;
+  min-height: 100vh;
+  transition: $transition-duration; // Adiciona a transição aqui
+}
+
+
+.name{
+  font-size: 1.5rem !important;
+  transition:  $transition-duration;;
+}
