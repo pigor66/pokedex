@@ -18,7 +18,10 @@ export default function ModalDetails({ handleClose, data, show, index }: IProps)
         centered
         size="lg"
       >
-        <Modal.Body className={`bg-dark text-white py-4 px-5`}>
+        <Modal.Header closeButton className={`bg-dark text-white py-4 px-5 `}>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <Modal.Body className={`bg-dark text-white py-4 px-5`} >
           <Row style={{ width: '100%' }}>
             <Col xs={12} className=" d-flex justify-content-center">
               <div style={{ display: 'flex', justifyContent: 'center', height: '18rem', width: '18rem' }} className={`shadow-${data?.types[0].type?.name}-modal rounded-circle d-flex align-items-center flex-direction-column`}>

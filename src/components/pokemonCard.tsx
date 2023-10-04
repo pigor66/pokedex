@@ -8,7 +8,9 @@ interface IpokemonCard {
   name: string
   url: string
   index: number
+  searchType: string
 }
+const pokemonCache: Record<string, any> = {};
 
 
 export default function PokemonsCard(props: IpokemonCard) {
@@ -17,18 +19,24 @@ export default function PokemonsCard(props: IpokemonCard) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { data, isLoading } = useQuery(['pokemon', props.url], () => {
+  const { data } = useQuery(['pokemon', props.url], () => {
+    // Verifica se os dados do Pokémon já foram carregados e armazenados na memória.
+    if (pokemonCache[props.url]) {
+      return pokemonCache[props.url];
+    }
     return axios.get(props.url)
-      .then((response) => response.data)
+      .then((response) => {
+        // Armazena os dados do Pokémon na memória.
+        pokemonCache[props.url] = response.data;
+        return response.data;
+      });
   }, {
     enabled: !!props.url, // Habilita a consulta somente se props.url estiver definido
   });
-
-
-
   if (data) {
     return (
       <>
+
         <Card className={`text-light shadow-${data?.types[0].type?.name} `} onClick={handleShow}>
           <Card.Body className='d-flex justify-content-between align-items-center flex-column'>
             <Card.Subtitle className="mb-2 text-white"></Card.Subtitle>

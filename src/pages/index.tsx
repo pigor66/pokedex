@@ -1,9 +1,10 @@
 import Head from 'next/head'
-import { Col, Container, Row, Spinner } from 'react-bootstrap'
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
 import HeaderPokedex from '@/components/header'
 import PokemonsCard from '@/components/pokemonCard'
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { Mutation, useMutation, useQuery } from 'react-query'
+import { useEffect, useState } from 'react'
 
 interface pokemonsData {
   count: number
@@ -18,11 +19,20 @@ interface Iresults {
 
 }
 export default function Home() {
+  const [searchType, setSearchType] = useState('all')
+  const [dataFiltred, setDataFiltred] = useState('')
+  const [quantityPage, setQuantityPage] = useState(20)
 
-  const { data, isLoading } = useQuery('pokemons', () => {
-    return axios.get('https://pokeapi.co/api/v2/pokemon?offset=0&limit=649')
+  const { data, isLoading, refetch } = useQuery(['pokemons', searchType], ({ queryKey }) => {
+    return axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${quantityPage}&offset=0`)
       .then((response) => response.data)
   })
+
+  useEffect(() => {
+    refetch()
+  }, [quantityPage])
+
+
 
   if (isLoading) {
     return (
@@ -41,8 +51,6 @@ export default function Home() {
             <Spinner animation="border" variant="danger" />
           </Col>
         </Row>
-
-
       </div >
     )
   } else {
@@ -55,8 +63,13 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className='content' >
-          <HeaderPokedex />
           <Container className='py-5'>
+
+            <HeaderPokedex
+              setSearchType={setSearchType}
+              searchType={searchType}
+            />
+
             {isLoading ?
               <>carregandp</>
               :
@@ -68,12 +81,14 @@ export default function Home() {
                         name={pokemon.name}
                         url={pokemon.url}
                         index={index}
+                        searchType={searchType}
                       />
                     </Col>
                   )
                 })}
               </Row>
             }
+            <Button variant='dark' onClick={() => setQuantityPage(quantityPage + 20)}>ver mais</Button>
           </Container>
         </div>
       </>
